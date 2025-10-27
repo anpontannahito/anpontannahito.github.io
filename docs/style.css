@@ -1,7 +1,7 @@
-h1{
+.center-align{
     text-align: center;
 }
-.fuck_header{
+.site-header{
     background-color: #2d2d2d;
     width: 100%;
 }
@@ -9,6 +9,12 @@ h1{
     color: aliceblue;
 }
 
+.field {
+display: flex;
+}
+.text{
+    text-align: left;
+}
 html, body {
 width: 100%;
 height: 100%;
