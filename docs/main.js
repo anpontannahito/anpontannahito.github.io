@@ -6,6 +6,6 @@ async function loadHTML(id, file) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadHTML("header", "/docs/assets/header.html");
-    loadHTML("footer", "/docs/assets/footer.html");
+    loadHTML("header", "/assets/header.html");
+    loadHTML("footer", "/assets/footer.html");
 });
