@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <title>ローカルメモ - Baeるホーム</title>
+    <script src="/main.js"></script>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div id="header"></div>
+        <div class="container">
+          <h1>ローカルメモ</h1>
+          <textarea class="memo" id="memo"></textarea>
+          <button onclick="save()">保存</button>
+          <script>
+            const memo = document.getElementById('memo');
+            memo.value = localStorage.getItem('memo') || '';
+            function save() {
+              localStorage.setItem('memo', memo.value);
+              alert('保存しました！');
+            }
+          </script>
+        </div>
+      <div id="footer"></div>
+    </div>
+  </body>
+</html>

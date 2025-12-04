@@ -38,7 +38,9 @@ display: flex;
 .footer__inner{
     display:flex;
 }
-
+.memo{
+    width: 50%; height: 300px;
+}
 .wrapper{
     width: 100%;
     min-height: 100vh;
