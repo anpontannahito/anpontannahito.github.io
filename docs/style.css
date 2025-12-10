@@ -1,6 +1,12 @@
 .center-align{
     text-align: center;
 }
+.image{
+    margin: 0 auto;
+    max-width: 800px;
+    min-width: 300px;
+}
+.image img { width: 100%; }
 
 .header-style{
     position: fixed;
