@@ -29,6 +29,30 @@
     }
 }
 
+.light-theme{
+    background-color: #ffffff;
+    color : #202020;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.box-light-mode{
+    border-color: #ccc;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-theme{
+    background-color: #121212;
+    color : #e0e0e0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.box-dark-mode{
+    border-color: #444;
+    background-color: #1e1e1e;
+    transition: background-color 0.3s, color 0.3s;
+}
+
 .header-style{
     position: fixed;
     top: 0;
@@ -165,7 +189,6 @@ html,body {
     height: 100%;
     margin: 0px;
     padding: 0px;
-    background-color: #fff;
 }
 body{
     padding-top: 70px;
@@ -179,7 +202,6 @@ body{
     max-width: 300px;
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
     position: relative;
-    background-color: #fff;
 }
 
 .box a{
@@ -226,4 +248,70 @@ body{
     font-size: 12px;
     margin: 0;
     padding: 0;
+}
+
+
+
+input {
+  border: 1px solid #0c0c0d4d;
+  color: #737373; /* グレー */
+  display: inline-block;
+  margin: 0 4px;
+}
+/* 楕円部 */
+input[type="checkbox"] {
+  -webkit-appearance: none;    /* 消してもOK */
+  appearance: none;            /* 元々あるチェックボックスを非表示にする */
+  background-color: #0c0c0d1a; /* 楕円の色=文字色alpha10% */
+  border-radius: 0px;          /* heightの半分 */
+  height: 16px; 
+  width: 32px;                 /* heightの2倍くらい */
+}
+input[type="checkbox"]:hover {
+  background-color: #0c0c0d33;
+  border-color: #0c0c0d7f;
+}
+input[type="checkbox"]:active {
+  background-color: #0c0c0d4d;
+}
+input[type="checkbox"]:focus {
+  box-shadow: 0 0 0 1px #0a84ff inset, 0 0 0 1px #0a84ff, 0 0 0 4px #0a84ff4d;
+}
+input[type="checkbox"]:checked {
+  background-color: #0060df; /* 青 */
+  border-color: #0060df;
+}
+
+/* 中の● */
+input[type="checkbox"]::before {
+  background-color: currentColor; /* ●の色=グレー */
+  border-radius: 0px;             /* heightの半分 */
+  content: "";                    /* おまじない */
+  display: inline-block;          /* おまじない */
+  height: 12px;                   /* 楕円部のheightより2px小さいくらい */
+  margin-left: 1px;               /* 楕円部と●のすき間 */
+  margin-top: 1px;                /* 楕円部と●のすき間 */
+  transition: margin-left .2s cubic-bezier(.07, .95, 0, 1); /* ヌルっと具合は調整 */
+  width: 12px;                    /* heightに合わせる */
+}
+input[type="checkbox"]:checked::before {
+  background-color: #ffffff; /* 白（楕円部の色と調整） */
+  margin-left: 17px;         /* ●を右へ移動 */
+}
+
+input[type="checkbox"].text {
+  position: relative;
+}
+input[type="checkbox"].text::after {
+  content: attr(data-text-off); /* カスタム属性を使わず直接"OFF"でもOK */
+  font-size: 8px;               /* 調整 */
+  position: absolute;
+  right: 2px;
+  top: 2px;
+}
+input[type="checkbox"].text:checked::after {
+  color: #ffffff;
+  content: attr(data-text-on); /* カスタム属性を使わず直接"ON"でもOK */
+  left: 2px;
+  right: auto;
 }
