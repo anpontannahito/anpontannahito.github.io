@@ -9,18 +9,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.style.visibility = "hidden";
     await loadHTML("header", "/assets/header.html");
     await loadHTML("footer", "/assets/footer.html");
-    document.body.style.visibility = "visible";
     initThemeToggle();
+    document.body.style.visibility = "visible";
 });
 
 function initThemeToggle() {
     const btn = document.querySelector("#btn-mode");
-    
+
     if (!btn) {
         console.warn("Theme toggle button not found");
         return;
     }
-    
+
     // 保存されたテーマ設定があれば復元
     const savedTheme = localStorage.getItem("theme") || "dark";
     if (savedTheme === "light") {
