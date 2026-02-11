@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.9">
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+        <title>ストップウォッチ/タイマー - Baeるホーム</title>
+        <script src="/scripts/main.js"></script>
+        <link rel="stylesheet" href="/style.css">
+        <script src="/scripts/timer.js" defer></script>
+    </head>
+    <body>
+        <div class="wrapper">
+        <div id="header"></div>
+            <div class="container">
+                <h1 class = "center-align">ストップウォッチ/タイマー</h1>
+                <div class = "display-area">
+                    <div id = "timer_display" class = "clock_class">00:00:00</div>
+                    <div class = "button-area">
+                        <button class = "timerbutton" onclick="startTimer()">スタート</button>
+                        <button class = "timerbutton" onclick="stopTimer()">ストップ</button>
+                        <button class = "timerbutton" onclick="resetTimer()">リセット</button>
+                        <button class = "timerbutton" onclick="changeTime()">時間変更</button>
+                    </div>
+                    <div class="timer_settings">
+                        <input type="radio" id="stopwatch_mode" name="mode" value="stopwatch" checked>
+                        <label for="stopwatch_mode">ストップウォッチ</label>
+                        <input type="radio" id="timer_mode" name="mode" value="timer">
+                        <label for="timer_mode">タイマー</label>
+                    </div>
+                    <div class = "timer_inputs" hidden>
+                        <label for="hours">時:</label>
+                        <input type="number" id="hours" min="0" value="0">
+                        <label for="minutes">分:</label>
+                        <input type="number" id="minutes" min="0" max="59" value="0">
+                        <label for="seconds">秒:</label>
+                        <input type="number" id="seconds" min="0" max="59" value="0">
+                    </div>
+                </div>
+            </div>
+        <div id="footer"></div>
+        </div>
+    </body>
+</html>

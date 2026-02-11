@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Noto+Sans+JP:wght@100..900&display=swap');
+
+button {
+    font-family: inherit;
+}
+
 .center-align{
     text-align: center;
 }
@@ -180,7 +186,15 @@ html,body {
 }
 body{
     padding-top: 70px;
-    font-family: "Hiragino Sans", "Meiryo", sans-serif;
+    font-family: "Google Sans Flex", "Noto Sans JP", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "slnt" 0,
+        "wdth" 100,
+        "GRAD" 0,
+        "ROND" 0;
 }
 
 .box {
@@ -253,6 +267,35 @@ body{
 .display-area{
     text-align: center;
 }
+
+.timerbutton{
+    font-size: 20px;
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #808080;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.timerbutton:hover{
+    background-color: #5dd9d4;
+}
+.timerbutton:active{
+    background-color: #40bfb9;
+}
+
+.timer_settings{
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.timer_inputs{
+    font-size: 18px;
+    margin-top: 20px;
+}
+
 /*レスポンシブ用*/
 @media (max-width: 600px) {
     .header-style {
@@ -265,6 +308,8 @@ body{
     .header-nav {
         gap: 15px;
         margin-top: 10px;
+        justify-content: center;
+        width: 100%;
     }
     .logo-text {
         font-size: 18px;
