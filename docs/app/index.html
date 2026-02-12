@@ -5,10 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=0.9">
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
         <link rel="stylesheet" href="/style.css">
+        <script>
+            (function() {
+                const savedTheme = localStorage.getItem("theme") || "dark";
+                if (savedTheme === "light") {
+                    document.documentElement.classList.add("light-theme");
+                } else {
+                    document.documentElement.classList.add("dark-theme");
+                }
+            })();
+        </script>
         <script src="/scripts/main.js"></script>
         <title>アプリリスト - Baeるホーム</title>
     </head>
     <body>
+        <div id="notification"></div>
         <div class="wrapper">
             <div id="header"></div>
             <div class="container">
@@ -29,6 +40,11 @@
                         <h2>ストップウォッチ/タイマー</h2>
                         <p>ブラウザ上で動作するシンプルなストップウォッチ・タイマーアプリです</p>
                         <a href="/app/fun/timer.html"></a>
+                    </div>
+                    <div class = "box">
+                        <h2>カウンター</h2>
+                        <p>ブラウザ上で動作するシンプルなカウンターアプリです</p>
+                        <a href="/app/fun/counter.html"></a>
                     </div>
                     <div class = "box">
                         <h2>LineCounter</h2>

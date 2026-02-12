@@ -5,10 +5,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=0.9">
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
         <link rel="stylesheet" href="/style.css">
+        <script>
+            // ページ読み込み時のフラッシュを防ぐため、保存されたテーマを早期に復元
+            (function() {
+                const savedTheme = localStorage.getItem("theme") || "dark";
+                if (savedTheme === "light") {
+                    document.documentElement.classList.add("light-theme");
+                } else {
+                    document.documentElement.classList.add("dark-theme");
+                }
+            })();
+        </script>
         <script src="/scripts/main.js"></script>
         <title>Baeるホーム</title>
     </head>
     <body>
+        <div id="notification"></div>
         <div class="wrapper">
             <div id="header"></div>
             <div class="container">

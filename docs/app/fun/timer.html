@@ -5,11 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=0.9">
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
         <title>ストップウォッチ/タイマー - Baeるホーム</title>
+        <script>
+            (function() {
+                const savedTheme = localStorage.getItem("theme") || "dark";
+                if (savedTheme === "light") {
+                    document.documentElement.classList.add("light-theme");
+                } else {
+                    document.documentElement.classList.add("dark-theme");
+                }
+            })();
+        </script>
         <script src="/scripts/main.js"></script>
         <link rel="stylesheet" href="/style.css">
         <script src="/scripts/timer.js" defer></script>
+        <script src="/scripts/notification.js" defer></script>
     </head>
     <body>
+        <div id="notification"></div>
         <div class="wrapper">
         <div id="header"></div>
             <div class="container">
@@ -20,13 +32,16 @@
                         <button class = "timerbutton" onclick="startTimer()">スタート</button>
                         <button class = "timerbutton" onclick="stopTimer()">ストップ</button>
                         <button class = "timerbutton" onclick="resetTimer()">リセット</button>
-                        <button class = "timerbutton" onclick="changeTime()">時間変更</button>
                     </div>
                     <div class="timer_settings">
                         <input type="radio" id="stopwatch_mode" name="mode" value="stopwatch" checked>
                         <label for="stopwatch_mode">ストップウォッチ</label>
                         <input type="radio" id="timer_mode" name="mode" value="timer">
                         <label for="timer_mode">タイマー</label>
+                    </div>
+                    <div class = "stopwatch">
+                        <button class = "timerbutton" onclick="lapTime()">ラップ</button>
+                        <div class="lap_times" id="lap_times"></div>
                     </div>
                     <div class = "timer_inputs" hidden>
                         <label for="hours">時:</label>
@@ -35,6 +50,15 @@
                         <input type="number" id="minutes" min="0" max="59" value="0">
                         <label for="seconds">秒:</label>
                         <input type="number" id="seconds" min="0" max="59" value="0">
+                        <button class = "timerbutton" onclick="changeTime()">セット</button>
+                        <form action="timer.html" method="post" enctype="multipart/form-data">
+                        <div class="sound-settings">
+                        <p>サウンド設定</p>
+                            <input type="file" name="audiofile" accept="audio/*">
+                            <label for="volume">音量</label>
+                            <input type="range" name="volume" min="0" max="100" value="100">
+                            <label style="font-family: 'Noto Sans JP', sans-serif;" id = "volume_label">0%</label>
+                        </div>
                     </div>
                 </div>
             </div>

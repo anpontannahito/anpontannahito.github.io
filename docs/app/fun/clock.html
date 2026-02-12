@@ -5,11 +5,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=0.9">
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
         <title>時計 - Baeるホーム</title>
+        <script>
+            (function() {
+                const savedTheme = localStorage.getItem("theme") || "dark";
+                if (savedTheme === "light") {
+                    document.documentElement.classList.add("light-theme");
+                } else {
+                    document.documentElement.classList.add("dark-theme");
+                }
+            })();
+        </script>
         <script src="/scripts/main.js"></script>
         <script src="/scripts/clock.js" defer></script>
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
+        <div id="notification"></div>
         <div class="wrapper">
         <div id="header"></div>
             <div class="container">
