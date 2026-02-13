@@ -5,9 +5,9 @@ const options = { weekday: "long" };
 function updateDate(){
     let now = new Date();
     let year = now.getFullYear();
-    let month = now.getMonth();
+    let month = now.getMonth() + 1;
     let date = now.getDate();
-    let day = new Intl.DateTimeFormat("ja-JP", options).format(now.getDay());
+    let day = new Intl.DateTimeFormat("ja-JP", options).format(now);
     dateelement.textContent = `${year}年${month}月${date}日(${day})`
 }
 
@@ -38,7 +38,6 @@ function scheduleMidnightUpdate() {
         setInterval(updateDate, 24 * 60 * 60 * 1000);
     }, msUntilMidnight);
 }
-
 
 setInterval(updateClock, 1000);
 updateClock();

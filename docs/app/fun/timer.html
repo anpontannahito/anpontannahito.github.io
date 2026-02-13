@@ -16,12 +16,10 @@
             })();
         </script>
         <script src="/scripts/main.js"></script>
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/stylesheet/main.css">
         <script src="/scripts/timer.js" defer></script>
-        <script src="/scripts/notification.js" defer></script>
     </head>
     <body>
-        <div id="notification"></div>
         <div class="wrapper">
         <div id="header"></div>
             <div class="container">
@@ -44,6 +42,7 @@
                         <div class="lap_times" id="lap_times"></div>
                     </div>
                     <div class = "timer_inputs" hidden>
+                        <p>時間設定</p>
                         <label for="hours">時:</label>
                         <input type="number" id="hours" min="0" value="0">
                         <label for="minutes">分:</label>
@@ -53,7 +52,7 @@
                         <button class = "timerbutton" onclick="changeTime()">セット</button>
                         <form action="timer.html" method="post" enctype="multipart/form-data">
                         <div class="sound-settings">
-                        <p>サウンド設定</p>
+                            <p>サウンド設定</p>
                             <input type="file" name="audiofile" accept="audio/*">
                             <label for="volume">音量</label>
                             <input type="range" name="volume" min="0" max="100" value="100">

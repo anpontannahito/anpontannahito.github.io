@@ -16,53 +16,41 @@ document.addEventListener("DOMContentLoaded", async () => {
 function initThemeToggle() {
     const btn = document.querySelector("#btn-mode");
 
-    if (!btn) {
-        console.warn("Theme toggle button not found");
-        return;
-    }
-
     // 保存されたテーマ設定があれば復元
     const savedTheme = localStorage.getItem("theme") || "dark";
-    if (savedTheme === "light") {
+    applyTheme(savedTheme);
+
+    // チェックした時の挙動
+    btn.addEventListener("click", () => {
+        const isDark = document.body.classList.contains("dark-theme");
+        applyTheme(isDark ? "light" : "dark");
+    });
+}
+
+function applyTheme(theme) {
+    const btn = document.querySelector("#btn-mode");
+
+    if (theme === "light") {
         document.body.classList.remove("dark-theme");
         document.body.classList.add("light-theme");
+        document.documentElement.classList.remove("dark-mode");
+        document.documentElement.classList.add("light-mode");
         document.querySelectorAll(".box").forEach(box => {
             box.classList.remove("box-dark-mode");
             box.classList.add("box-light-mode");
         });
-        btn.checked = false;
+        if (btn) btn.checked = false;
         localStorage.setItem("theme", "light");
     } else {
         document.body.classList.remove("light-theme");
         document.body.classList.add("dark-theme");
+        document.documentElement.classList.remove("light-mode");
+        document.documentElement.classList.add("dark-mode");
         document.querySelectorAll(".box").forEach(box => {
             box.classList.remove("box-light-mode");
             box.classList.add("box-dark-mode");
         });
-        btn.checked = true;
+        if (btn) btn.checked = true;
         localStorage.setItem("theme", "dark");
     }
-
-    // チェックした時の挙動
-    btn.addEventListener("click", () => {
-        if (document.body.classList.contains("dark-theme")) {
-            // ダークモード → ライトモード
-            document.body.classList.remove("dark-theme");
-            document.body.classList.add("light-theme");
-            document.querySelectorAll(".box").forEach(box => {
-                box.classList.remove("box-dark-mode");
-                box.classList.add("box-light-mode");
-            });
-            localStorage.setItem("theme", "light");
-        } else {
-            // ライトモード → ダークモード
-            document.body.classList.remove("light-theme");
-            document.body.classList.add("dark-theme");
-            document.querySelectorAll(".box").forEach(box => {
-                box.classList.remove("box-light-mode");
-                box.classList.add("box-dark-mode");
-            });
-            localStorage.setItem("theme", "dark");
-        }
-    });
 }

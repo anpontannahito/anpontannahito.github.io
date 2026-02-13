@@ -15,6 +15,8 @@ const lapTimesDiv = document.getElementById('lap_times');
 
 const audio = new Audio();
 
+let newTime = 0;
+
 let timesec = 0;
 let timerflag = false; // false: ストップウォッチモード, true: タイマーモード
 let lapcount = 1;
@@ -76,7 +78,6 @@ function resetTimer(){
 
 function changeTime(){
     resetTimer();
-    let newTime = 0;
     newTime += parseInt(hoursInput.value) * 3600;
     newTime += parseInt(minutesInput.value) * 60;
     newTime += parseInt(secondsInput.value);
