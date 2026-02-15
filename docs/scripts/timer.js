@@ -85,6 +85,7 @@ function changeTime(){
         timesec = newTime;
         clockelement.textContent = formattime(timesec);
     }
+    newTime = 0;
 }
 
 function lapTime(){

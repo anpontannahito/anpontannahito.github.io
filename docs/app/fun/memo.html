@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <title>ローカルメモ - Baeるホーム</title>
     <script>
@@ -23,9 +23,11 @@
     <div class="wrapper">
       <div id="header"></div>
         <div class="container">
-          <h1>ローカルメモ</h1>
-          <textarea class="memo" id="memo"></textarea>
-          <button class = "timerbutton" onclick="save()">保存</button>
+          <h1 class = "center-align">ローカルメモ</h1>
+          <div class = "display-area">
+            <textarea class="memo" id="memo"></textarea>
+            <button class = "timerbutton" onclick="save()">保存</button>
+          </div>
         </div>
       <div id="footer"></div>
     </div>
