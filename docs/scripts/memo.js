@@ -1,7 +1,21 @@
-const memo = document.getElementById('memo');
-memo.value = localStorage.getItem('memo') || '';
+(() => {
+    let memoElement = null;
 
-function save() {
-    localStorage.setItem('memo', memo.value);
-    alert('保存しました！');
-}
+    function initMemo() {
+        memoElement = document.getElementById("memo");
+        if (!memoElement) return;
+
+        memoElement.value = localStorage.getItem("memo") || "";
+    }
+
+    function save() {
+        if (!memoElement) initMemo();
+        if (!memoElement) return;
+
+        localStorage.setItem("memo", memoElement.value);
+        alert("保存しました！");
+    }
+
+    window.initMemo = initMemo;
+    window.save = save;
+})();

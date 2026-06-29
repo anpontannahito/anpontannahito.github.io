@@ -74,7 +74,7 @@ button {
 }
 
 .logo-text:hover{
-    color: #a8d8ff;
+    color: #5dd9d4;
     transform: scale(1.05);
 }
 
@@ -133,8 +133,17 @@ button {
     margin: 0 auto;
 }
 
+.appfield {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 @media (max-width: 1000px) {
-    .field {
+    .appfield {
         grid-template-columns: repeat(1, 1fr);
     }
 }

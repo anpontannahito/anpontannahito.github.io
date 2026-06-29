@@ -1,45 +1,72 @@
-const clockelement = document.getElementById('clock_display');
-const dateelement = document.getElementById('date_display');
-const options = { weekday: "long" };
+(() => {
+    const dateFormatOptions = { weekday: "long" };
+    let clockElement = null;
+    let dateElement = null;
+    let clockIntervalId = null;
+    let midnightTimeoutId = null;
+    let dateIntervalId = null;
 
-function updateDate(){
-    let now = new Date();
-    let year = now.getFullYear();
-    let month = now.getMonth() + 1;
-    let date = now.getDate();
-    let day = new Intl.DateTimeFormat("ja-JP", options).format(now);
-    dateelement.textContent = `${year}年${month}月${date}日(${day})`
-}
+    function initClock() {
+        cleanupClock();
 
-function updateClock(){
-    let now = new Date();
-    let hours = now.getHours().toString().padStart(2, '0');
-    let minutes = now.getMinutes().toString().padStart(2, '0');
-    let seconds = now.getSeconds().toString().padStart(2, '0');
-    clockelement.textContent = `${hours}:${minutes}:${seconds}`;
-}
+        clockElement = document.getElementById("clock_display");
+        dateElement = document.getElementById("date_display");
+        if (!clockElement || !dateElement) return;
 
-function scheduleMidnightUpdate() {
-    const now = new Date();
-
-    // 次の0時
-    const nextMidnight = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + 1,
-        0, 0, 0, 0
-    );
-
-    const msUntilMidnight = nextMidnight - now;
-
-    // 0時になったら更新して、以降は24時間ごと
-    setTimeout(() => {
+        updateClock();
         updateDate();
-        setInterval(updateDate, 24 * 60 * 60 * 1000);
-    }, msUntilMidnight);
-}
+        clockIntervalId = setInterval(updateClock, 1000);
+        scheduleMidnightUpdate();
+        window.currentPageCleanup = cleanupClock;
+    }
 
-setInterval(updateClock, 1000);
-updateClock();
-scheduleMidnightUpdate();
-updateDate();
+    function cleanupClock() {
+        if (clockIntervalId) clearInterval(clockIntervalId);
+        if (midnightTimeoutId) clearTimeout(midnightTimeoutId);
+        if (dateIntervalId) clearInterval(dateIntervalId);
+
+        clockIntervalId = null;
+        midnightTimeoutId = null;
+        dateIntervalId = null;
+        clockElement = null;
+        dateElement = null;
+    }
+
+    function updateDate() {
+        if (!dateElement) return;
+
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1;
+        const date = now.getDate();
+        const day = new Intl.DateTimeFormat("ja-JP", dateFormatOptions).format(now);
+        dateElement.textContent = `${year}年${month}月${date}日(${day})`;
+    }
+
+    function updateClock() {
+        if (!clockElement) return;
+
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, "0");
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+        clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    function scheduleMidnightUpdate() {
+        const now = new Date();
+        const nextMidnight = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1,
+            0, 0, 0, 0
+        );
+
+        midnightTimeoutId = setTimeout(() => {
+            updateDate();
+            dateIntervalId = setInterval(updateDate, 24 * 60 * 60 * 1000);
+        }, nextMidnight - now);
+    }
+
+    window.initClock = initClock;
+})();
