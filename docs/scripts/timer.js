@@ -1,122 +1,192 @@
-const clockelement = document.getElementById('timer_display');
+(() => {
+    let timerDisplay = null;
+    let hoursInput = null;
+    let minutesInput = null;
+    let secondsInput = null;
+    let timerModeInput = null;
+    let stopwatchModeInput = null;
+    let soundfileInput = null;
+    let volumeInput = null;
+    let volumeLabel = null;
+    let lapTimesDiv = null;
+    let timerInputs = null;
+    let stopwatchArea = null;
+    let timerAudio = null;
+    let timerIntervalId = null;
+    let timesec = 0;
+    let timerModeEnabled = false;
+    let lapCount = 1;
 
-const hoursInput = document.getElementById('hours');
-const minutesInput = document.getElementById('minutes');
-const secondsInput = document.getElementById('seconds');
+    function initTimer() {
+        cleanupTimer();
 
-const timer_mode = document.getElementById('timer_mode');
-const stopwatch_mode = document.getElementById('stopwatch_mode');
+        timerDisplay = document.getElementById("timer_display");
+        hoursInput = document.getElementById("hours");
+        minutesInput = document.getElementById("minutes");
+        secondsInput = document.getElementById("seconds");
+        timerModeInput = document.getElementById("timer_mode");
+        stopwatchModeInput = document.getElementById("stopwatch_mode");
+        soundfileInput = document.querySelector('input[name="audiofile"]');
+        volumeInput = document.querySelector('input[name="volume"]');
+        volumeLabel = document.getElementById("volume_label");
+        lapTimesDiv = document.getElementById("lap_times");
+        timerInputs = document.querySelector(".timer_inputs");
+        stopwatchArea = document.querySelector(".stopwatch");
 
-const soundfileInput = document.querySelector('input[name="audiofile"]');
-const volumeInput = document.querySelector('input[name="volume"]');
-const volumeLabel = document.getElementById('volume_label');
+        if (!timerDisplay) return;
 
-const lapTimesDiv = document.getElementById('lap_times');
+        timerAudio = new Audio();
+        timesec = 0;
+        timerModeEnabled = false;
+        lapCount = 1;
 
-const audio = new Audio();
+        updateVolumeLabel();
+        switchToTimer();
 
-let newTime = 0;
+        volumeInput?.addEventListener("input", updateVolumeLabel);
+        timerModeInput?.addEventListener("change", switchToTimer);
+        stopwatchModeInput?.addEventListener("change", switchToTimer);
+        window.currentPageCleanup = cleanupTimer;
+    }
 
-let timesec = 0;
-let timerflag = false; // false: ストップウォッチモード, true: タイマーモード
-let lapcount = 1;
+    function cleanupTimer() {
+        clearTimerInterval();
 
-function updatestopwatch(){
-    timesec++;
-    clockelement.textContent = formattime(timesec);
-}
-
-function updateTimer(){
-    if (timesec > 0) {
-        timesec--;
-        clockelement.textContent = formattime(timesec);
-    } else {
-        stopTimer();
-        // サウンドを再生
-        const files = soundfileInput.files;
-        if (files.length > 0) {
-            const audioURL = URL.createObjectURL(files[0]);
-            audio.src = audioURL;
-            audio.play();
+        if (timerAudio) {
+            timerAudio.pause();
+            timerAudio.currentTime = 0;
         }
-        alert('タイマー終了！');
+
+        volumeInput?.removeEventListener("input", updateVolumeLabel);
+        timerModeInput?.removeEventListener("change", switchToTimer);
+        stopwatchModeInput?.removeEventListener("change", switchToTimer);
+
+        timerDisplay = null;
+        hoursInput = null;
+        minutesInput = null;
+        secondsInput = null;
+        timerModeInput = null;
+        stopwatchModeInput = null;
+        soundfileInput = null;
+        volumeInput = null;
+        volumeLabel = null;
+        lapTimesDiv = null;
+        timerInputs = null;
+        stopwatchArea = null;
+        timerAudio = null;
     }
-}
 
-function formattime(sec){
-    let hours = Math.floor(sec / 3600).toString().padStart(2, '0');
-    let minutes = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
-    let seconds = (sec % 60).toString().padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
-}
-
-function startTimer(){
-    if (this.timerInterval) return;
-    switchToTimer();
-    if (!timerflag) {
-        this.timerInterval = setInterval(updatestopwatch, 1000);
-    } else {
-        this.timerInterval = setInterval(updateTimer, 1000);
+    function ensureTimerReady() {
+        if (!timerDisplay) initTimer();
+        return Boolean(timerDisplay);
     }
-}
 
-function stopTimer(){
-    audio.pause();
-    audio.currentTime = 0;
-    if (!this.timerInterval) return;
-    clearInterval(this.timerInterval);
-    this.timerInterval = null;
-}
+    function clearTimerInterval() {
+        if (!timerIntervalId) return;
 
-function resetTimer(){
-    stopTimer();
-    timesec = 0;
-    clockelement.textContent = `00:00:00`;
-    lapcount = 1;
-    lapTimesDiv.innerHTML = '';
-}
+        clearInterval(timerIntervalId);
+        timerIntervalId = null;
+    }
 
-function changeTime(){
-    resetTimer();
-    newTime += parseInt(hoursInput.value) * 3600;
-    newTime += parseInt(minutesInput.value) * 60;
-    newTime += parseInt(secondsInput.value);
-    if (!isNaN(newTime)) {
+    function updateStopwatch() {
+        timesec++;
+        if (timerDisplay) timerDisplay.textContent = formatTime(timesec);
+    }
+
+    function updateTimer() {
+        if (timesec > 0) {
+            timesec--;
+            if (timerDisplay) timerDisplay.textContent = formatTime(timesec);
+            return;
+        }
+
+        stopTimer();
+        const files = soundfileInput?.files;
+        if (files && files.length > 0 && timerAudio) {
+            const audioURL = URL.createObjectURL(files[0]);
+            timerAudio.src = audioURL;
+            timerAudio.play();
+        }
+        alert("タイマー終了！");
+    }
+
+    function formatTime(sec) {
+        const hours = Math.floor(sec / 3600).toString().padStart(2, "0");
+        const minutes = Math.floor((sec % 3600) / 60).toString().padStart(2, "0");
+        const seconds = (sec % 60).toString().padStart(2, "0");
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
+    function startTimer() {
+        if (!ensureTimerReady() || timerIntervalId) return;
+
+        switchToTimer();
+        timerIntervalId = setInterval(timerModeEnabled ? updateTimer : updateStopwatch, 1000);
+    }
+
+    function stopTimer() {
+        if (timerAudio) {
+            timerAudio.pause();
+            timerAudio.currentTime = 0;
+        }
+        clearTimerInterval();
+    }
+
+    function resetTimer() {
+        if (!ensureTimerReady()) return;
+
+        stopTimer();
+        timesec = 0;
+        timerDisplay.textContent = "00:00:00";
+        lapCount = 1;
+        if (lapTimesDiv) lapTimesDiv.innerHTML = "";
+    }
+
+    function changeTime() {
+        if (!ensureTimerReady()) return;
+
+        resetTimer();
+        const newTime = getInputNumber(hoursInput) * 3600
+            + getInputNumber(minutesInput) * 60
+            + getInputNumber(secondsInput);
+
         timesec = newTime;
-        clockelement.textContent = formattime(timesec);
+        timerDisplay.textContent = formatTime(timesec);
     }
-    newTime = 0;
-}
 
-function lapTime(){
-    if (timerflag) return; // タイマーモードではラップタイムを記録しない
-    const lapTimeEntry = document.createElement('div');
-    lapTimeEntry.textContent = `ラップ${lapcount}: ${formattime(timesec)}`;
-    lapTimesDiv.appendChild(lapTimeEntry);
-    lapcount++;
-}
+    function lapTime() {
+        if (!ensureTimerReady() || timerModeEnabled || !lapTimesDiv) return;
 
-function switchToTimer(){
-    if (timer_mode.checked) {
-        timerflag = true;
-        document.querySelector('.timer_inputs').hidden = false;
-        document.querySelector('.stopwatch').hidden = true;
-    } else {
-        timerflag = false;
-        document.querySelector('.timer_inputs').hidden = true;
-        document.querySelector('.stopwatch').hidden = false;
+        const lapTimeEntry = document.createElement("div");
+        lapTimeEntry.textContent = `ラップ${lapCount}: ${formatTime(timesec)}`;
+        lapTimesDiv.appendChild(lapTimeEntry);
+        lapCount++;
     }
-}
 
-function updateVolumeLabel(){
-    volumeLabel.textContent = `${volumeInput.value}%`;
-    audio.volume = volumeInput.value / 100;
-}
+    function switchToTimer() {
+        if (!timerModeInput) return;
 
-updateVolumeLabel();
+        timerModeEnabled = timerModeInput.checked;
+        if (timerInputs) timerInputs.hidden = !timerModeEnabled;
+        if (stopwatchArea) stopwatchArea.hidden = timerModeEnabled;
+    }
 
-volumeInput.addEventListener('input', updateVolumeLabel);
-timer_mode.addEventListener('change', switchToTimer);
-stopwatch_mode.addEventListener('change', switchToTimer);
-stopwatch_mode.addEventListener('change', switchToTimer);
+    function updateVolumeLabel() {
+        if (!volumeInput || !volumeLabel || !timerAudio) return;
 
+        volumeLabel.textContent = `${volumeInput.value}%`;
+        timerAudio.volume = volumeInput.value / 100;
+    }
+
+    function getInputNumber(input) {
+        const value = parseInt(input?.value || "0", 10);
+        return Number.isNaN(value) ? 0 : value;
+    }
+
+    window.initTimer = initTimer;
+    window.startTimer = startTimer;
+    window.stopTimer = stopTimer;
+    window.resetTimer = resetTimer;
+    window.changeTime = changeTime;
+    window.lapTime = lapTime;
+})();

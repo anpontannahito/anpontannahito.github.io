@@ -1,26 +1,56 @@
-const counterDisplay = document.getElementById("counter_display");
-let counter = 0;
-function decrement(){
-    counter -= 1;
-    counterDisplay.textContent = counter;
-}
+(() => {
+    let counterDisplay = null;
+    let counter = 0;
 
-function increment(){
-    counter += 1;
-    counterDisplay.textContent = counter;
-}
+    function initCounter() {
+        counterDisplay = document.getElementById("counter_display");
+        counter = 0;
+        updateCounterDisplay();
+    }
 
-function incrementByTen(){
-    counter += 10;
-    counterDisplay.textContent = counter;
-}
+    function ensureCounterReady() {
+        if (!counterDisplay) initCounter();
+        return Boolean(counterDisplay);
+    }
 
-function decrementByTen(){
-    counter -= 10;
-    counterDisplay.textContent = counter;
-}
+    function updateCounterDisplay() {
+        if (counterDisplay) counterDisplay.textContent = counter;
+    }
 
-function resetCounter(){
-    counter = 0;
-    counterDisplay.textContent = counter;
-}
+    function decrement() {
+        if (!ensureCounterReady()) return;
+        counter -= 1;
+        updateCounterDisplay();
+    }
+
+    function increment() {
+        if (!ensureCounterReady()) return;
+        counter += 1;
+        updateCounterDisplay();
+    }
+
+    function incrementByTen() {
+        if (!ensureCounterReady()) return;
+        counter += 10;
+        updateCounterDisplay();
+    }
+
+    function decrementByTen() {
+        if (!ensureCounterReady()) return;
+        counter -= 10;
+        updateCounterDisplay();
+    }
+
+    function resetCounter() {
+        if (!ensureCounterReady()) return;
+        counter = 0;
+        updateCounterDisplay();
+    }
+
+    window.initCounter = initCounter;
+    window.decrement = decrement;
+    window.increment = increment;
+    window.incrementByTen = incrementByTen;
+    window.decrementByTen = decrementByTen;
+    window.resetCounter = resetCounter;
+})();
